@@ -1,0 +1,21 @@
+<div class="users">
+  <h1 class="users__title">Table of users</h1>
+  <div class="users__block">
+    <table class="users__table">
+      <tr>
+        <th *ngFor="let title of titles">
+          {{ title }}
+        </th>
+      </tr>
+      <tr *ngFor="let user of users">
+        <td>{{ user.name }}</td>
+        <td>{{ user.age }}</td>
+        <td>{{ user.gender }}</td>
+        <td>{{ user.department }}</td>
+        <td>{{ user.address.city +", "+ user.address.street }}</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+
