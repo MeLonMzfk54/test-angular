@@ -1,0 +1,24 @@
+<div class="filter">
+  <h2 class="filter__title">Filter</h2>
+  <div class="filter__inner">
+    <div class="filter__item">
+      <div class="filter__name">Gender</div>
+      <div class="filter__values">
+        <div class="filter__value" *ngFor="let gender of genders">{{ gender.gender }} <span>(0)</span> <input value="{{ gender.gender }}" [(ngModel)]="gender.checked"  type="checkbox"></div>
+      </div>
+    </div>
+    <div class="filter__item">
+      <div class="filter__name">City</div>
+      <div class="filter__values">
+        <div class="filter__value" *ngFor="let city of cities"> {{ city.address }} <span>(0)</span>  <input value="{{ city.address }}" [(ngModel)]="city.checked"  type="checkbox"></div>
+      </div>
+    </div>
+    <div class="filter__item">
+      <div class="filter__name">Department</div>
+      <div class="filter__values">
+        <div class="filter__value" *ngFor="let depart of department">{{ depart.department }} <span>(0)</span> <input value="{{ depart.department }}" [(ngModel)]="depart.checked"  type="checkbox"> </div>
+      </div>
+    </div>
+
+  </div>
+</div>

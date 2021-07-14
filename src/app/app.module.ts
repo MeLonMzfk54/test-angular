@@ -6,16 +6,20 @@ import { AppComponent } from './app.component';
 import { UserListComponent } from './user-list/user-list.component';
 import {RouterModule} from "@angular/router";
 import {HttpClientModule} from "@angular/common/http";
+import { FormsModule } from '@angular/forms';
+import { UserFilterComponent } from './user-filter/user-filter.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    UserListComponent
+    UserListComponent,
+    UserFilterComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    FormsModule,
     RouterModule.forRoot([
       {path: '', component: UserListComponent},
     ])

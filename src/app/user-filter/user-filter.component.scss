@@ -1,0 +1,28 @@
+.filter{
+  max-width: 1200px;
+  margin: 50px 0;
+  &__inner{
+    display: flex;
+    justify-content: flex-start;
+  }
+  &__item{
+    margin-right: 50px;
+    &:last-child{
+      margin-right: 0;
+    }
+  }
+  &__title{}
+  &__name{
+    color: darkcyan;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+  }
+  &__values{}
+  &__value{
+    font-weight: 300;
+    margin-bottom: 10px;
+    &:last-child{
+      margin-bottom: 0;
+    }
+  }
+}
