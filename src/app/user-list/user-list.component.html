@@ -6,6 +6,8 @@
       <tr>
         <th *ngFor="let title of titles">
           {{ title }}
+          <div class="users__sortup" [id]="title" (click)="sortByUp(users,$event.target)"></div>
+          <div class="users__sortdown" [id]="title" (click)="sortByDown(users,$event.target)"></div>
         </th>
       </tr>
       <tr *ngFor="let user of users">
@@ -13,7 +15,7 @@
         <td>{{ user.age }}</td>
         <td>{{ user.gender }}</td>
         <td>{{ user.department }}</td>
-        <td>{{ user.address.city +", "+ user.address.street }}</td>
+        <td>{{ user.address.city}},<br> {{user.address.street}}</td>
       </tr>
     </table>
   </div>

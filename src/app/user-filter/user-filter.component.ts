@@ -1,10 +1,10 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import{ Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 @Component({
   selector: 'app-user-filter',
   templateUrl: './user-filter.component.html',
   styleUrls: ['./user-filter.component.scss']
 })
-export class UserFilterComponent implements OnInit {
+export class UserFilterComponent implements OnInit{
   @Input() usersArray: any;
   @Input() titlesArray: string[] = [];
   genders: any[] = [];
@@ -13,12 +13,12 @@ export class UserFilterComponent implements OnInit {
   genderCheck: boolean = false;
 
 
-  constructor() {
+  constructor(){
+
   }
 
   ngOnChanges() {
-
-    this.usersArray.forEach( (element: any) =>{
+    this.usersArray.forEach((element: any) => {
       for(let key in element){
         let pivot = key;
         if(key.toLowerCase().trim() == "gender"){
@@ -34,7 +34,7 @@ export class UserFilterComponent implements OnInit {
     });
 
 
-   this.genders = this.genders.filter((item, index, array) => {
+    this.genders = this.genders.filter((item, index, array) => {
       return array.map((mapItem) => mapItem['gender']).indexOf(item['gender']) === index
     })
 

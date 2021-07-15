@@ -7,15 +7,15 @@ import {UserListService} from "../services/userList.service";
   styleUrls: ['./user-list.component.scss'],
   providers: [UserListService]
 })
-export class UserListComponent implements OnInit {
+export class UserListComponent implements OnInit{
   users: any[] = [];
   url: string = '../../assets/test_users.json';
   titleSet = new Set();
   titles: any[] = [];
 
-  constructor(private userService: UserListService) { }
+  constructor(private userService: UserListService){ }
 
-  ngOnInit() {
+  ngOnInit(){
     let keys: string[];
     this.userService.get(this.url).subscribe(value =>{
       this.users = value;
@@ -30,11 +30,26 @@ export class UserListComponent implements OnInit {
       });
       this.titles = this.titles.filter(item => item != 'id');
     },
-      error => {
+      error =>{
           console.log(error);
       }
       );
-
+  }
+  sortByUp(arr: any, event: any): void{
+   let field: string = event.id.trim().toLowerCase();
+   if(field != "address"){
+     arr.sort((a: any,b: any) => a[field] > b[field] ? 1 : -1);
+   }else{
+     arr.sort((a: any,b: any) => a[field].city > b[field].city ? 1 : -1);
+   }
+  }
+  sortByDown(arr: any, event: any): void{
+    let field: string = event.id.trim().toLowerCase();
+    if(field != "address"){
+      arr.sort((a: any,b: any) => a[field] < b[field] ? 1 : -1);
+    }else{
+      arr.sort((a: any,b: any) => a[field].city < b[field].city ? 1 : -1);
+    }
   }
 
 }

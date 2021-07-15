@@ -8,10 +8,11 @@
     border-collapse: collapse;
     text-align: center;
     margin: 0 auto;
-    th, td:first-child {
+    th {
+      text-align: center;
       background: #AFCDE7;
       color: white;
-      padding: 10px 20px;
+      padding: 10px 8px;
     }
     th, td {
       border-style: solid;
@@ -22,7 +23,60 @@
       background: #D8E6F3;
     }
     th:first-child, td:first-child {
-      text-align: left;
+      text-align: center;
+    }
+  }
+  &__sortup,
+  &__sortdown{
+    position: relative;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #000;
+    &:before,
+    &:after{
+      content: "";
+      position: absolute;
+      display: block;
+      width: 10px;
+      height: 2px;
+      background: #AFCDE7;
+    }
+}
+  &__sortup{
+    margin-right: 10px;
+    &:before{
+      top: 9px;
+      left: 2px;
+      transform: rotate(-45deg);
+    }
+    &:after{
+      top: 9px;
+      left: 8px;
+      transform: rotate(45deg);
+    }
+  }
+  &__sortdown{
+    &:before{
+      top: 9px;
+      left: 2px;
+      transform: rotate(45deg);
+    }
+    &:after{
+      top: 9px;
+      left: 8px;
+      transform: rotate(-45deg);
+    }
+  }
+  @media(max-width:673px){
+    &__sortup,
+    &__sortdown{
+      margin: 5px auto;
+      display: block;
+    }
+    &__sortup{
+
     }
   }
 }
