@@ -10,8 +10,7 @@ export class UserFilterComponent implements OnInit{
   genders: any[] = [];
   cities: any[] = [];
   department: any[] = [];
-  genderCheck: boolean = false;
-
+  rules: string[] =[];
 
   constructor(){
 
@@ -20,15 +19,14 @@ export class UserFilterComponent implements OnInit{
   ngOnChanges() {
     this.usersArray.forEach((element: any) => {
       for(let key in element){
-        let pivot = key;
         if(key.toLowerCase().trim() == "gender"){
-          this.genders.push({[pivot] : element[key], checked: false});
+          this.genders.push({[key] : element[key], checked: false, visibility: true});
         }
         if(key.toLowerCase().trim() == "department"){
-          this.department.push({[pivot] : element[key], checked: false});
+          this.department.push({[key] : element[key], checked: false, visibility: true});
         }
         if(key.toLowerCase().trim() == "address"){
-          this.cities.push({[pivot] : element[key].city, checked: false});
+          this.cities.push({[key] : element[key].city, checked: false, visibility: true});
         }
       }
     });
@@ -45,6 +43,68 @@ export class UserFilterComponent implements OnInit{
     this.department = this.department.filter((item, index, array) => {
       return array.map((mapItem) => mapItem['department']).indexOf(item['department']) === index
     })
+  }
+
+  changeCheck(event: any, type: string): void{
+    let pivot = event.value;
+
+
+    switch (type){
+      case 'genders':
+        for(let item of this.genders){
+          item.visibility = true;
+          if(item.gender != pivot){
+            item.visibility = false;
+          }else{
+            if(item.checked == true){
+              this.genders.map(item => item.visibility = true);
+              break;
+            }
+          }
+        };
+        // this.genders.map(item =>{
+        //   item.visibility = true;
+        //   if(item.gender != pivot){
+        //     item.visibility = false;
+        //   }else{
+        //     if(item.checked == true){
+        //     this.genders.map(item => item.visibility = true);
+        //     break;
+        //     }
+        //   }
+        // });
+        break;
+      case 'cities':
+        for(let item of this.cities){
+          item.visibility = true;
+          if(item.address != pivot){
+            item.visibility = false;
+          }else{
+            if(item.checked == true){
+              this.cities.map(item => item.visibility = true);
+              break;
+            }
+          }
+        };
+        break;
+      case 'departments':
+        for(let item of this.department){
+          item.visibility = true;
+          if(item.department != pivot){
+            item.visibility = false;
+          }else{
+            if(item.checked == true){
+              this.department.map(item => item.visibility = true);
+              break;
+            }
+          }
+        }
+        break;
+      default:
+        alert("Ошибка");
+        break;
+    }
+
   }
 
   ngOnInit(): void {

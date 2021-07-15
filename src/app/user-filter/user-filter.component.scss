@@ -32,6 +32,12 @@
       margin-right: 0px;
     }
   }
+  &__visible{
+    display: none;
+  }
+  &__hidden{
+    display: none;
+  }
   @media(max-width: 1162px){
     &__item{
       padding-right: 5px;
@@ -65,4 +71,7 @@
       padding-bottom: 5px;
     }
   }
+}
+.visible{
+  display: none;
 }

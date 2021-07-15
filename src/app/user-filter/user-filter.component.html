@@ -4,19 +4,19 @@
     <div class="filter__item">
       <div class="filter__name">Gender</div>
       <div class="filter__values">
-        <div class="filter__value" *ngFor="let gender of genders">{{ gender.gender }} <input value="{{ gender.gender }}" [(ngModel)]="gender.checked"  type="checkbox"> <span>(0)</span></div>
+        <div class="filter__value" *ngFor="let gender of genders" [class.visible]="!gender.visibility"> {{ gender.gender }} <input value="{{ gender.gender }}" [(ngModel)]="gender.checked" (click)="changeCheck($event.target, 'genders')"  type="checkbox"> <span>(0)</span></div>
       </div>
     </div>
     <div class="filter__item">
       <div class="filter__name">City</div>
       <div class="filter__values">
-        <div class="filter__value" *ngFor="let city of cities"> {{ city.address }}  <input value="{{ city.address }}" [(ngModel)]="city.checked"  type="checkbox"> <span>(0)</span></div>
+        <div class="filter__value" *ngFor="let city of cities" [class.visible]="!city.visibility"  > {{ city.address }}  <input value="{{ city.address }}" [(ngModel)]="city.checked" (click)="changeCheck($event.target, 'cities')"   type="checkbox"> <span>(0)</span></div>
       </div>
     </div>
     <div class="filter__item">
       <div class="filter__name">Department</div>
       <div class="filter__values">
-        <div class="filter__value" *ngFor="let depart of department">{{ depart.department }} <input value="{{ depart.department }}" [(ngModel)]="depart.checked"  type="checkbox"> <span>(0)</span></div>
+        <div class="filter__value" *ngFor="let depart of department" [class.visible]="!depart.visibility">{{ depart.department }} <input value="{{ depart.department }}" [(ngModel)]="depart.checked" (click)="changeCheck($event.target, 'departments')"   type="checkbox"> <span>(0)</span></div>
       </div>
     </div>
 
