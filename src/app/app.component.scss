@@ -44,6 +44,9 @@ img{vertical-align: top;}
   max-width: 1300px;
   padding: 0px 15px;
   margin: 0 auto;
+  @media(max-width:400px){
+    padding: 0;
+  }
 }
 
 .wrapper{
