@@ -6,7 +6,7 @@ import {Observable} from "rxjs";
 export class UserListService{
   constructor(private httpClient: HttpClient) {
   }
-  public get(url: string): Observable<any>{
+   public get(url: string): Observable<any>{
     return this.httpClient.get(url);
   }
 }
