@@ -1,73 +1,74 @@
-import{ Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 import RulesObject from "../Interfaces/RulesObject";
+import {UserListService} from "../services/userList.service";
 @Component({
   selector: 'app-user-filter',
   templateUrl: './user-filter.component.html',
-  styleUrls: ['./user-filter.component.scss']
+  styleUrls: ['./user-filter.component.scss'],
+  providers: [UserListService]
 })
 export class UserFilterComponent implements OnInit{
-  @Input() usersArray: any;
-  @Input() titlesArray: string[] = [];
+  @Output() bubbleArray = new EventEmitter<any>();
+
   genders: any[] = [];
   cities: any[] = [];
   department: any[] = [];
+
+  url: string = '../../assets/test_users.json';
+
   rules: RulesObject = {
     gender: '',
     address: '',
     department: ''
   };
-  resultArray: object[] = [];
-  // counters = {
-  //   female: 0,
-  //   male: 0,
-  //   Moscow: 0,
-  //   'New-York': 0,
-  //   Voronezh: 0,
-  //   Spb: 0,
-  //   Backend: 0,
-  //   Hr: 0,
-  //   Fronted: 0,
-  // };
+   resultArray: object[] = [];
 
-  constructor(){
+
+  constructor(private userService: UserListService){
 
   }
 
-  ngOnChanges() {
-    this.usersArray.forEach((element: any) => {
-      for(let key in element){
-        if(key.toLowerCase().trim() == "gender"){
-          this.genders.push({[key] : element[key], checked: false, visibility: true});
-        }
-        if(key.toLowerCase().trim() == "department"){
-          this.department.push({[key] : element[key], checked: false, visibility: true});
-        }
-        if(key.toLowerCase().trim() == "address"){
-          this.cities.push({[key] : element[key].city, checked: false, visibility: true});
-        }
-      }
+  ngOnInit(): void {
+    this.userService.get(this.url).subscribe(value =>{
+      this.resultArray = value;
     });
+    setInterval(() =>{
+      this.resultArray.forEach((element: any) => {
+        for(let key in element){
+          if(key.toLowerCase().trim() == "gender"){
+            this.genders.push({[key] : element[key], checked: false, visibility: true, counter: 0});
+          }
+          if(key.toLowerCase().trim() == "department"){
+            this.department.push({[key] : element[key], checked: false, visibility: true, counter: 0});
+          }
+          if(key.toLowerCase().trim() == "address"){
+            this.cities.push({[key] : element[key].city, checked: false, visibility: true, counter: 0});
+          }
+        }
+      });
+      this.genders = this.genders.filter((item, index, array) => {
+        return array.map((mapItem) => mapItem['gender']).indexOf(item['gender']) === index
+      })
 
+      this.cities = this.cities.filter((item, index, array) => {
+        return array.map((mapItem) => mapItem['address']).indexOf(item['address']) === index
+      })
 
-    this.genders = this.genders.filter((item, index, array) => {
-      return array.map((mapItem) => mapItem['gender']).indexOf(item['gender']) === index
-    })
-
-    this.cities = this.cities.filter((item, index, array) => {
-      return array.map((mapItem) => mapItem['address']).indexOf(item['address']) === index
-    })
-
-    this.department = this.department.filter((item, index, array) => {
-      return array.map((mapItem) => mapItem['department']).indexOf(item['department']) === index
-    })
+      this.department = this.department.filter((item, index, array) => {
+        return array.map((mapItem) => mapItem['department']).indexOf(item['department']) === index
+      })
+    },0)
 
   }
-
-
 
   changeCheck(event: any, type: string): void{
     let pivot = event.value;
-    let self = this;
 
     switch (type){
       case 'genders':
@@ -84,17 +85,6 @@ export class UserFilterComponent implements OnInit{
             }
           }
         };
-        // this.genders.map(item =>{
-        //   item.visibility = true;
-        //   if(item.gender != pivot){
-        //     item.visibility = false;
-        //   }else{
-        //     if(item.checked == true){
-        //     this.genders.map(item => item.visibility = true);
-        //     break;
-        //     }
-        //   }
-        // });
         break;
       case 'cities':
         for(let item of this.cities){
@@ -130,39 +120,50 @@ export class UserFilterComponent implements OnInit{
         alert("Ошибка");
         break;
     }
+
     //Изменение массива
-
-    // self.rules.forEach((i: any) =>{
-    //   this.resultArray = this.usersArray.filter((item:any) =>  item.department == i.department);
-    // });
-    // if(!this.resultArray[0]){
-    //   this.resultArray = this.usersArray;
-    // }
-
-
     let key: any;
-    let count: number = 0;
-    this.resultArray = [];
+    this.userService.get(this.url).subscribe(value =>{
+      this.resultArray = value;
+    });
     for( key in this.rules){
       if(this.rules[key]){
-        if(!this.resultArray[0]){
-          this.resultArray = this.usersArray.filter((item: any) => item[key] == this.rules[key] || item[key].city == this.rules[key]);
-        }else{
-          this.resultArray = this.resultArray.filter((item: any) => item[key] == this.rules[key] || item[key].city == this.rules[key]);
-        }
-      }else{
-        count++;
+        this.resultArray = this.resultArray.filter((item: any) => item[key].city == this.rules[key] || item[key] == this.rules[key]);
       }
     }
-    if(count >= 3){
-      // Отдаём наверх изначальный массив
-    }
-
-    // this.resultArray = this.usersArray.filter((a: any) => this.rules.some((b: any) => b.gender = a.gender));
+    this.bubbleArray.emit(this.resultArray);
+    this.calculateCounts(this.resultArray);
   }
 
-  ngOnInit(): void {
+  calculateCounts(array: any){
+    this.genders.forEach((item: any) =>{
+      item.counter = 0;
+    });
+    this.cities.forEach((item: any) =>{
+      item.counter = 0;
+    });
+    this.department.forEach((item: any) =>{
+      item.counter = 0;
+    });
+    this.resultArray.forEach((item: any) => {
+      this.genders.forEach((i: any) =>{
+        if(i.gender == item.gender){
+          i.counter++;
+        }
+      });
 
+      this.cities.forEach((i: any) =>{
+        if(i.address == item.address.city){
+          i.counter++;
+        }
+      });
+
+      this.department.forEach((i: any) =>{
+        if(i.department == item.department){
+          i.counter++;
+        }
+      });
+    });
   }
 
 }

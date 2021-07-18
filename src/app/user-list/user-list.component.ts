@@ -35,6 +35,7 @@ export class UserListComponent implements OnInit{
       }
       );
   }
+
   sortByUp(arr: any, event: any): void{
    let field: string = event.id.trim().toLowerCase();
    if(field != "address"){
@@ -43,6 +44,7 @@ export class UserListComponent implements OnInit{
      arr.sort((a: any,b: any) => a[field].city > b[field].city ? 1 : -1);
    }
   }
+
   sortByDown(arr: any, event: any): void{
     let field: string = event.id.trim().toLowerCase();
     if(field != "address"){
@@ -50,6 +52,10 @@ export class UserListComponent implements OnInit{
     }else{
       arr.sort((a: any,b: any) => a[field].city < b[field].city ? 1 : -1);
     }
+  }
+
+  changeList(value: any){
+    this.users = value;
   }
 
 }

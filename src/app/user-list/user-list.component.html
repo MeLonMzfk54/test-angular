@@ -1,6 +1,6 @@
 <div class="users">
   <h1 class="users__title">Table of users</h1>
-  <app-user-filter [usersArray]="users" [titlesArray]="titles"></app-user-filter>
+  <app-user-filter (bubbleArray)="changeList($event)"></app-user-filter>
   <div class="users__block">
     <table class="users__table">
       <tr>
